@@ -83,12 +83,12 @@ class WhirlView extends SurfaceView implements Runnable {
                 field2[x][y] = field[x][y];
 
                 for (int dx=-1; dx<=1; dx++) {
+			int x2 = x + dx;
+			if (x2<0) x2 += width;
+			if (x2>=width) x2 -= width;
                     for (int dy=-1; dy<=1; dy++) {
-                        int x2 = x + dx;
-                        int y2 = y + dy;
-                        if (x2<0) x2 += width;
+                        int y2 = y + dy;                        
                         if (y2<0) y2 += height;
-                        if (x2>=width) x2 -= width;
                         if (y2>=height) y2 -= height;
                         if ( (field[x][y]+1) % MAX_COLOR == field[x2][y2]) {
                             field2[x][y] = field[x2][y2];
@@ -102,9 +102,9 @@ class WhirlView extends SurfaceView implements Runnable {
 
     @Override
     public void onDraw(Canvas canvas) {
+	Paint paint = new Paint();
         for (int x=0; x<width; x++) {
             for (int y=0; y<height; y++) {
-                Paint paint = new Paint();
                 paint.setColor(palette[field[x][y]]);
                 canvas.drawRect(x*scale, y*scale, (x+1)*scale, (y+1)*scale, paint);
             }
